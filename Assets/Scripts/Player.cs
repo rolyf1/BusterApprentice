@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public RigidBody RigidBody;
+    public Rigidbody RigidBody;
     public float moveSpeed;
     private Vector3 moveDir;
 
@@ -16,6 +16,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void fixUpdate()
     {
-        RigidBody.velocity = new Vector3((moveDir.x * moveSpeed), (moveDir.y * moveSpeed), 0);
+        RigidBody.linearVelocity = new Vector3((moveDir.x * moveSpeed), (moveDir.y * moveSpeed), 0);
     }
 }
