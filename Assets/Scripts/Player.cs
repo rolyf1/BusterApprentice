@@ -1,68 +1,99 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
-public class PlayerMovement : MonoBehaviour
+/*
+    This script provides jumping and movement in Unity 3D - Gatsby
+*/
+
+public class Player : MonoBehaviour
 {
-    public float walkSpeed = 6f;
-    public float runSpeed = 12f;
-    public float jumpPower = 7f;
-    public float gravity = 10f;
-    public float defaultHeight = 2f;
-    public float crouchHeight = 1f;
-    public float crouchSpeed = 3f;
+    // Ground Movement
+    private Rigidbody rb;
+    public float MoveSpeed = 5f;
+    private float moveHorizontal;
+    private float moveForward;
 
-    private Vector3 moveDirection = Vector3.zero;
-    private float rotationX = 0;
-    private CharacterController characterController;
-
-    private bool canMove = true;
+    // Jumping
+    public float jumpForce = 10f;
+    public float fallMultiplier = 2.5f; // Multiplies gravity when falling down
+    public float ascendMultiplier = 2f; // Multiplies gravity for ascending to peak of jump
+    private bool isGrounded = true;
+    public LayerMask groundLayer;
+    private float groundCheckTimer = 0f;
+    private float groundCheckDelay = 0.3f;
+    private float playerHeight;
+    private float raycastDistance;
 
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
+
     }
 
     void Update()
     {
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 right = transform.TransformDirection(Vector3.right);
+        moveHorizontal = Input.GetAxisRaw("Horizontal");
+        moveForward = Input.GetAxisRaw("Vertical");
 
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Horizontal") : 0;
-        float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            moveDirection.y = jumpPower;
+            Jump();
+        }
+
+        // Checking when we're on the ground and keeping track of our ground check delay
+        if (!isGrounded && groundCheckTimer <= 0f)
+        {
+            Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
+            isGrounded = Physics.Raycast(rayOrigin, Vector3.down, raycastDistance, groundLayer);
         }
         else
         {
-            moveDirection.y = movementDirectionY;
+            groundCheckTimer -= Time.deltaTime;
         }
 
-        if (!characterController.isGrounded)
+    }
+
+    void FixedUpdate()
+    {
+        MovePlayer();
+        ApplyJumpPhysics();
+    }
+
+    void MovePlayer()
+    {
+
+        Vector3 movement = (transform.right * moveHorizontal + transform.forward * moveForward).normalized;
+        Vector3 targetVelocity = movement * MoveSpeed;
+
+        // Apply movement to the Rigidbody
+        Vector3 velocity = rb.linearVelocity;
+        velocity.x = targetVelocity.x;
+        velocity.z = targetVelocity.z;
+        rb.linearVelocity = velocity;
+
+        // If we aren't moving and are on the ground, stop velocity so we don't slide
+        if (isGrounded && moveHorizontal == 0 && moveForward == 0)
         {
-            moveDirection.y -= gravity * Time.deltaTime;
+            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
         }
+    }
 
-        if (Input.GetKey(KeyCode.R) && canMove)
+    void Jump()
+    {
+        isGrounded = false;
+        groundCheckTimer = groundCheckDelay;
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z); // Initial burst for the jump
+    }
+
+    void ApplyJumpPhysics()
+    {
+        if (rb.linearVelocity.y < 0) 
         {
-            characterController.height = crouchHeight;
-            walkSpeed = crouchSpeed;
-            runSpeed = crouchSpeed;
-
-        }
-        else
+            // Falling: Apply fall multiplier to make descent faster
+            rb.linearVelocity += Vector3.up * Physics.gravity.y * fallMultiplier * Time.fixedDeltaTime;
+        } // Rising
+        else if (rb.linearVelocity.y > 0)
         {
-            characterController.height = defaultHeight;
-            walkSpeed = 6f;
-            runSpeed = 12f;
+            // Rising: Change multiplier to make player reach peak of jump faster
+            rb.linearVelocity += Vector3.up * Physics.gravity.y * ascendMultiplier  * Time.fixedDeltaTime;
         }
-
-        characterController.Move(moveDirection * Time.deltaTime);
     }
 }
