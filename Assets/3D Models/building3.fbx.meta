@@ -3,7 +3,47 @@ guid: 7b82799c5faa608469aa4247955e2fea
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: default_1001_baseColor
+    second: {fileID: 2800000, guid: 33ad8b226b9fd6c4d8940ae06e77d49d, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: default_1001_normal
+    second: {fileID: 2800000, guid: b6670c15f844b43499dd6b8f42f9eca2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: default_1002_baseColor
+    second: {fileID: 2800000, guid: 3fa5f9e07b1ee0c499bcbd7d4b3a79f4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: default_1002_normal
+    second: {fileID: 2800000, guid: f11ce981c4353de4396e582f4ba8cab6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: default_1003_baseColor
+    second: {fileID: 2800000, guid: f1277739e7693af4c829b22b881674ba, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: default_1003_normal
+    second: {fileID: 2800000, guid: 2fcdffe34bb5c514d8ab2eb8e27043ab, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: default_1004_baseColor
+    second: {fileID: 2800000, guid: 649594928a6bcdf46bd3aa96370b7108, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: default_1004_normal
+    second: {fileID: 2800000, guid: 06df7b75d4c52a64bb284bf8d9e55ef0, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
