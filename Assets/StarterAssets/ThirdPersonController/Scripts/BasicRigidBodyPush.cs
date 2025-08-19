@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+/*
 public class BasicRigidBodyPush : MonoBehaviour
 {
 	public LayerMask pushLayers;
@@ -33,3 +33,5 @@ public class BasicRigidBodyPush : MonoBehaviour
 		body.AddForce(pushDir * strength, ForceMode.Impulse);
 	}
 }
+
+*/
