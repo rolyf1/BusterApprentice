@@ -1,3 +1,5 @@
+using StarterAssets;
+using TiltFiveCursor;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,7 +17,8 @@ namespace TiltFive
         public Vector3 camRotation = new Vector3(0, 0, 0);
 
         // Cutscene variables
-        public bool isCutscene = false;
+        private CursorBehaviour _cursor;
+        private PlayerController _controller;
         public int cutsceneNum = 0;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,7 +30,7 @@ namespace TiltFive
         // Update is called once per frame
         private void LateUpdate()
         {
-            if (!isCutscene) // If player not in cutscene, track player
+            if (!_cursor.inCutscene && !_controller.camShift) // If player not in cutscene, track player
             {
                 camPos = new Vector3(PlayerPos.position.x + camXOffset, PlayerPos.position.y + camYOffset, PlayerPos.position.z + camZOffset);
                 transform.position = Vector3.Lerp(transform.position, camPos, 0.1f);

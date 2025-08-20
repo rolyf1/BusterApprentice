@@ -1,6 +1,7 @@
 ﻿using PlayerAssets;
 using System.Runtime.CompilerServices;
 using TiltFive;
+using TiltFiveCursor;
 using UnityEditor;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
@@ -87,8 +88,12 @@ namespace StarterAssets
         private Animator _animator;
         private CharacterController _controller;
         private PlayerInputSystem _inputAction;
+
         private GameObject _mainCamera;
         private TrackPlayer _trackPlayer;
+        public bool camShift = false;
+
+        private CursorBehaviour _cursor;
 
         private const float _threshold = 0.01f;
 
@@ -123,11 +128,14 @@ namespace StarterAssets
 
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
+            if (_cursor.inCutscene)
+            {
+                _hasAnimator = TryGetComponent(out _animator);
 
-            JumpAndGravity();
-            GroundedCheck();
-            Move();
+                JumpAndGravity();
+                GroundedCheck();
+                Move();
+            }
         }
 
         private void LateUpdate()
@@ -302,6 +310,7 @@ namespace StarterAssets
             var lookDir = new Vector2(_inputAction.lookDir.x, _inputAction.lookDir.y);
             if (lookDir != Vector2.zero)
             {
+                camShift = true;
                 if (lookDir.x < 0)
                 {
                     _trackPlayer.camXOffset = 30;
@@ -310,6 +319,11 @@ namespace StarterAssets
                 {
                     _trackPlayer.camXOffset = -30;
                 }
+            }
+            else
+            {
+                camShift = false;
+                _trackPlayer.camXOffset = 0;
             }
         }
 
