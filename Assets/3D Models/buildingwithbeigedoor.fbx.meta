@@ -1,64 +1,9 @@
 fileFormatVersion: 2
-guid: b37e64d08ff41454cbabe0680196d34a
+guid: 64918d6a7e8644b4fa908bce8438670f
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Bald
-    second: {fileID: 2100000, guid: 7226a65eb89fd014b89fd037ef2b22b0, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Clothes
-    second: {fileID: 2100000, guid: a4e4b31c58ea6844a82edb83dbfc567b, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.001
-    second: {fileID: 2100000, guid: fe2c6b5e25234c94fa4c00dcd4196f0f, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: ShirtButtons
-    second: {fileID: 2100000, guid: 98006fcbe6bd3154bbda85e5bda063ba, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Shoe
-    second: {fileID: 2100000, guid: d882493b418cf2c47ac6bed1703cb6ea, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Skin
-    second: {fileID: 2100000, guid: e4012f149266b5046af8ac3e488d0113, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Skin.001
-    second: {fileID: 2100000, guid: 1ef4c466dbaeb3d43bef4a0134a19530, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: eyeIris
-    second: {fileID: 2100000, guid: 420ef9bcfe1ef224b820443972d48dae, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: eyePupil
-    second: {fileID: 2100000, guid: 1ebc4ff27ff536a44828a754237ad882, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: eyeWhite
-    second: {fileID: 2100000, guid: 487c43a26cd45904eb6de6dc5d4ac427, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: eyelash
-    second: {fileID: 2100000, guid: 3e384041943eee044b3c3a6ad8efae11, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
