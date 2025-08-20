@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UIElements/StartMenu.uss?fileID=7433441132597879392&amp;guid=bd09a4f526a4cae478142463683c23a3&amp;type=3#StartMenu" />
+    <ui:VisualElement name="Panel" class="panel hide" style="flex-grow: 1;" />
+</ui:UXML>
