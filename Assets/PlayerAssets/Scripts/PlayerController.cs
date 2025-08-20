@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using TiltFive;
 using TiltFiveCursor;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
@@ -93,7 +94,9 @@ namespace StarterAssets
         private TrackPlayer _trackPlayer;
         public bool camShift = false;
 
-        private CursorBehaviour _cursor;
+        private GameObject _cursor;
+        private CursorBehaviour _cursorBehaviour;
+
 
         private const float _threshold = 0.01f;
 
@@ -105,6 +108,11 @@ namespace StarterAssets
             if (_mainCamera == null)
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            }
+            if (_cursor == null)
+            {
+                _cursor = GameObject.FindGameObjectWithTag("Cursor");
+                _cursorBehaviour = GetComponent<CursorBehaviour>();
             }
         }
 
@@ -128,7 +136,7 @@ namespace StarterAssets
 
         private void Update()
         {
-            if (_cursor.inCutscene)
+            if (_cursorBehaviour.inCutscene)
             {
                 _hasAnimator = TryGetComponent(out _animator);
 
