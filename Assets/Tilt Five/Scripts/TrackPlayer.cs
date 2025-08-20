@@ -14,9 +14,6 @@ namespace TiltFive
         public int camZOffset = -7;
         public int camXOffset = 0;
         private Vector3 camPos;
-        public Vector3 camRotation = new Vector3(0, 0, 0);
-        private GameObject _player;
-        private GameObject _cursor;
 
         // Cutscene variables
 
@@ -31,12 +28,8 @@ namespace TiltFive
         // Update is called once per frame
         private void LateUpdate()
         {
-            if (!_cursor.inCutscene && !_controller.camShift) // If player not in cutscene, track player
-            {
-                camPos = new Vector3(PlayerPos.position.x + camXOffset, PlayerPos.position.y + camYOffset, PlayerPos.position.z + camZOffset);
-                transform.position = Vector3.Lerp(transform.position, camPos, 0.1f);
-            }
-            
+            camPos = new Vector3(PlayerPos.position.x + camXOffset, PlayerPos.position.y + camYOffset, PlayerPos.position.z + camZOffset);
+            transform.position = Vector3.Lerp(transform.position, camPos, 0.1f);
         }
     }
 }

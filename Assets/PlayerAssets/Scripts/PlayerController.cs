@@ -92,15 +92,13 @@ namespace StarterAssets
 
         private GameObject _mainCamera;
         private TrackPlayer _trackPlayer;
-        public bool camShift = false;
 
-        private GameObject _cursor;
-        private CursorBehaviour _cursorBehaviour;
-
-
-        private const float _threshold = 0.01f;
+        public bool inCutscene = true;
 
         private bool _hasAnimator;
+
+        private bool _lastCanInput = true;
+
 
         private void Awake()
         {
@@ -109,11 +107,7 @@ namespace StarterAssets
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
-            if (_cursor == null)
-            {
-                _cursor = GameObject.FindGameObjectWithTag("Cursor");
-                _cursorBehaviour = GetComponent<CursorBehaviour>();
-            }
+            
         }
 
         private void Start()
@@ -121,6 +115,16 @@ namespace StarterAssets
             _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _inputAction = GetComponent<PlayerInputSystem>();
+
+            if (_inputAction == null)
+            {
+                _inputAction = PlayerInputSystem.Instance ?? UnityEngine.Object.FindFirstObjectByType<PlayerInputSystem>();
+            }
+
+            int pisCount = FindObjectsOfType<PlayerInputSystem>().Length;
+            Debug.Log($"[PlayerController] Start: _inputAction={(_inputAction?.name ?? "null")}, PlayerInputSystem count={pisCount}");
+
+
 #if ENABLE_INPUT_SYSTEM
             _playerInput = GetComponent<PlayerInput>();
 #else
@@ -136,21 +140,12 @@ namespace StarterAssets
 
         private void Update()
         {
-            if (_cursorBehaviour.inCutscene)
-            {
                 _hasAnimator = TryGetComponent(out _animator);
 
                 JumpAndGravity();
                 GroundedCheck();
                 Move();
-            }
         }
-
-        private void LateUpdate()
-        {
-            Look();
-        }
-
         private void AssignAnimationIDs()
         {
             _animIsRunning = Animator.StringToHash("isRunning");
@@ -177,20 +172,31 @@ namespace StarterAssets
 
         private void Move()
         {
-            // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _inputAction.sprint ? SprintSpeed : MoveSpeed;
+            // if input is disabled (UI open), treat inputs as neutral
+            bool canInput = _inputAction != null ? _inputAction.inputToggle : true;
+            Vector2 moveInput = canInput ? _inputAction.move : Vector2.zero;
+            bool sprintInput = canInput ? _inputAction.sprint : false;
+            float targetSpeed = sprintInput ? SprintSpeed : MoveSpeed;
+
+            if (moveInput == Vector2.zero) targetSpeed = 0.0f;
+            Debug.Log("Target Speed:" + targetSpeed);
+            if (canInput != _lastCanInput)
+            {
+                Debug.Log($"[PlayerController] canInput changed: {canInput} (source={_inputAction?.name ?? "null"})");
+                _lastCanInput = canInput;
+            }
+
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
-            if (_inputAction.move == Vector2.zero) targetSpeed = 0.0f;
 
             // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
             float speedOffset = 0.1f;
-            float inputMagnitude = _inputAction.analogMovement ? _inputAction.move.magnitude : 1f;
+            float inputMagnitude = _inputAction.analogMovement ? moveInput.magnitude : 1f;
 
             // accelerate or decelerate to target speed
             if (currentHorizontalSpeed < targetSpeed - speedOffset ||
@@ -213,13 +219,9 @@ namespace StarterAssets
             if (_animationBlend < 0.01f) _animationBlend = 0f;
 
             // normalise input direction
-            Vector3 inputDirection = new Vector3(_inputAction.move.x, 0.0f, _inputAction.move.y).normalized;
+            Vector3 inputDirection = new Vector3(moveInput.x, 0.0f, moveInput.y).normalized;
 
-            // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is a move input rotate player when the player is moving
-
-
-            if (_inputAction.move != Vector2.zero)
+            if (moveInput != Vector2.zero)
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
@@ -240,7 +242,7 @@ namespace StarterAssets
             if (_hasAnimator)
             {
                 _animator.SetBool(_animIsWalking, targetSpeed > 0);
-                _animator.SetBool(_animIsRunning, _inputAction.sprint && targetSpeed > 0.2);
+                _animator.SetBool(_animIsRunning, sprintInput && targetSpeed > 0.2);
             }
         }
 
@@ -310,28 +312,6 @@ namespace StarterAssets
             if (_verticalVelocity < _terminalVelocity)
             {
                 _verticalVelocity += Gravity * Time.deltaTime;
-            }
-        }
-
-        private void Look()
-        {
-            var lookDir = new Vector2(_inputAction.lookDir.x, _inputAction.lookDir.y);
-            if (lookDir != Vector2.zero)
-            {
-                camShift = true;
-                if (lookDir.x < 0)
-                {
-                    _trackPlayer.camXOffset = 30;
-                }
-                else
-                {
-                    _trackPlayer.camXOffset = -30;
-                }
-            }
-            else
-            {
-                camShift = false;
-                _trackPlayer.camXOffset = 0;
             }
         }
 

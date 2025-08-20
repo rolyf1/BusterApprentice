@@ -13,12 +13,15 @@ namespace PlayerAssets
         public bool interact;
         public bool analogMovement;
         public Vector2 lookDir;
+        public bool inputToggle = true;
 
         private PlayerInput _playerInput;
         private InputAction _moveAction;
         private InputAction _interactAction;
         private InputAction _sprintAction;
         private InputAction _lookAction;
+
+        public static PlayerInputSystem Instance { get; private set; }
 
         private void Awake()
         {
@@ -29,6 +32,15 @@ namespace PlayerAssets
             _interactAction = _playerInput.actions.FindAction("Interact");
             _sprintAction = _playerInput.actions.FindAction("Sprint");
             _lookAction = _playerInput.actions.FindAction("Look");
+
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else if (Instance != this)
+            {
+                Debug.LogWarning($"Multiple PlayerInputSystem instances found! Existing={Instance.name}, This={name}");
+            }
         }
 
         private void OnEnable()
@@ -73,22 +85,22 @@ namespace PlayerAssets
 
             if (_interactAction != null)
             {
-                _interactAction.performed += OnInteractPerformed;
-                _interactAction.canceled += OnInteractCanceled;
+                _interactAction.performed -= OnInteractPerformed;
+                _interactAction.canceled -= OnInteractCanceled;
                 _interactAction.Disable();
             }
 
             if (_sprintAction != null)
             {
-                _sprintAction.performed += OnSprintPerformed;
-                _sprintAction.canceled += OnSprintCanceled;
+                _sprintAction.performed -= OnSprintPerformed;
+                _sprintAction.canceled -= OnSprintCanceled;
                 _sprintAction.Disable();
             }
 
             if (_lookAction != null)
             {
-                _lookAction.performed += OnLookPerformed;
-                _lookAction.canceled += OnLookCanceled;
+                _lookAction.performed -= OnLookPerformed;
+                _lookAction.canceled -= OnLookCanceled;
                 _lookAction.Disable();
             }
         }
@@ -115,5 +127,20 @@ namespace PlayerAssets
         public void InteractInput(bool pressed) => interact = pressed;
         public void SprintInput(bool pressed) => sprint = pressed;
         public void LookInput(Vector2 newLookDirection) => lookDir = newLookDirection;
+
+
+        public void ToggleInput(bool inputEnabled)
+        {
+            inputToggle = inputEnabled;
+            Debug.Log($"[PlayerInputSystem] {name}.ToggleInput({inputEnabled}) -> inputToggle={inputToggle}");
+
+            if (!inputEnabled)
+            {
+                move = Vector2.zero;
+                jump = false;
+                sprint = false;
+                interact = false;
+            }
+        }
     }
 }
