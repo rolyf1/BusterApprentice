@@ -1,5 +1,6 @@
 ﻿using PlayerAssets;
 using System.Runtime.CompilerServices;
+using TiltFive;
 using UnityEditor;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
@@ -87,23 +88,11 @@ namespace StarterAssets
         private CharacterController _controller;
         private PlayerInputSystem _inputAction;
         private GameObject _mainCamera;
+        private TrackPlayer _trackPlayer;
 
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
-
-        private bool IsCurrentDeviceMouse
-        {
-            get
-            {
-#if ENABLE_INPUT_SYSTEM
-                return _playerInput.currentControlScheme == "KeyboardMouse";
-#else
-				return false;
-#endif
-            }
-        }
-
 
         private void Awake()
         {
@@ -139,6 +128,11 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+        }
+
+        private void LateUpdate()
+        {
+            Look();
         }
 
         private void AssignAnimationIDs()
@@ -302,6 +296,23 @@ namespace StarterAssets
                 _verticalVelocity += Gravity * Time.deltaTime;
             }
         }
+
+        private void Look()
+        {
+            var lookDir = new Vector2(_inputAction.lookDir.x, _inputAction.lookDir.y);
+            if (lookDir != Vector2.zero)
+            {
+                if (lookDir.x < 0)
+                {
+                    _trackPlayer.camXOffset = 30;
+                }
+                else
+                {
+                    _trackPlayer.camXOffset = -30;
+                }
+            }
+        }
+
 
         private void OnDrawGizmosSelected()
         {

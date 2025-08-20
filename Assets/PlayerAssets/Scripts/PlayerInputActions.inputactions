@@ -19,7 +19,7 @@
                     "name": "Look",
                     "type": "Value",
                     "id": "4513bfaf-f937-43f7-b8ee-37574367b9d2",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -216,6 +216,28 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "71fa779f-2af4-4048-a1d8-3b19d5ff877f",
+                    "path": "<WandDevice>/One",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";XR",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3d9ecb03-42c0-4d8e-91c3-31dfd13b49f3",
+                    "path": "<WandDevice>/Two",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";XR",
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
