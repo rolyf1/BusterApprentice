@@ -14,6 +14,10 @@ namespace TiltFive
         private Vector3 camPos;
         public Vector3 camRotation = new Vector3(0, 0, 0);
 
+        // Cutscene variables
+        public bool isCutscene = false;
+        public int cutsceneNum = 0;
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         private void Start()
         {
@@ -23,8 +27,12 @@ namespace TiltFive
         // Update is called once per frame
         private void LateUpdate()
         {
-            camPos = new Vector3(PlayerPos.position.x + camXOffset, PlayerPos.position.y + camYOffset, PlayerPos.position.z + camZOffset);
-            transform.position = Vector3.Lerp(transform.position,camPos,0.1f);
+            if (!isCutscene) // If player not in cutscene, track player
+            {
+                camPos = new Vector3(PlayerPos.position.x + camXOffset, PlayerPos.position.y + camYOffset, PlayerPos.position.z + camZOffset);
+                transform.position = Vector3.Lerp(transform.position, camPos, 0.1f);
+            }
+            
         }
     }
 }
