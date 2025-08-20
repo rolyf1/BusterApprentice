@@ -12,11 +12,13 @@ namespace PlayerAssets
         public bool sprint;
         public bool interact;
         public bool analogMovement;
+        public Vector2 lookDir;
 
         private PlayerInput _playerInput;
         private InputAction _moveAction;
         private InputAction _interactAction;
         private InputAction _sprintAction;
+        private InputAction _lookAction;
 
         private void Awake()
         {
@@ -26,10 +28,7 @@ namespace PlayerAssets
             _moveAction = _playerInput.actions.FindAction("Move");
             _interactAction = _playerInput.actions.FindAction("Interact");
             _sprintAction = _playerInput.actions.FindAction("Sprint");
-
-            if (_moveAction == null) Debug.LogWarning("Move action not found in PlayerInput.actions");
-            if (_interactAction == null) Debug.LogWarning("Interact action not found in PlayerInput.actions");
-            if (_sprintAction == null) Debug.LogWarning("Sprint action not found in PlayerInput.actions");
+            _lookAction = _playerInput.actions.FindAction("Look");
         }
 
         private void OnEnable()
@@ -53,6 +52,13 @@ namespace PlayerAssets
                 _sprintAction.performed += OnSprintPerformed;
                 _sprintAction.canceled += OnSprintCanceled;
                 _sprintAction.Enable();
+            }
+
+            if (_lookAction != null)
+            {
+                _lookAction.performed += OnLookPerformed;
+                _lookAction.canceled += OnLookCanceled;
+                _lookAction.Enable();
             }
         }
 
@@ -78,6 +84,13 @@ namespace PlayerAssets
                 _sprintAction.canceled += OnSprintCanceled;
                 _sprintAction.Disable();
             }
+
+            if (_lookAction != null)
+            {
+                _lookAction.performed += OnLookPerformed;
+                _lookAction.canceled += OnLookCanceled;
+                _lookAction.Disable();
+            }
         }
 
         // ---- callbacks ----
@@ -93,10 +106,14 @@ namespace PlayerAssets
         private void OnSprintPerformed(InputAction.CallbackContext ctx) => SprintInput(true);
         private void OnSprintCanceled(InputAction.CallbackContext ctx) => SprintInput(false);
 
+        // Sprint
+        private void OnLookPerformed(InputAction.CallbackContext ctx) => LookInput(ctx.ReadValue<Vector2>());
+        private void OnLookCanceled(InputAction.CallbackContext ctx) => LookInput(Vector2.zero);
+
         // ---- existing helpers (keep or adapt your existing methods) ----
         public void MoveInput(Vector2 newMoveDirection) => move = newMoveDirection;
         public void InteractInput(bool pressed) => interact = pressed;
         public void SprintInput(bool pressed) => sprint = pressed;
-        public void JumpInput(bool pressed) => jump = pressed;
+        public void LookInput(Vector2 newLookDirection) => lookDir = newLookDirection;
     }
 }
