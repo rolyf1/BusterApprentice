@@ -178,6 +178,17 @@
                 },
                 {
                     "name": "",
+                    "id": "b920626d-f21d-475d-9302-386718345ba0",
+                    "path": "<WandDevice>/Stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c1f7a91b-d0fd-4a62-997e-7fb9b69bf235",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
@@ -266,6 +277,17 @@
                 },
                 {
                     "name": "",
+                    "id": "ace27f8c-75a2-4fde-982e-903c9c77f0d0",
+                    "path": "<WandDevice>/X",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a27d3838-801a-4fc5-ba9b-4b17888a6b13",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
@@ -293,6 +315,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Joystick",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5441fcf8-3235-4048-90d8-594006e8cac5",
+                    "path": "<WandDevice>/Trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
