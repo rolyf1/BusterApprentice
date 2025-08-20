@@ -15,10 +15,11 @@ namespace TiltFive
         public int camXOffset = 0;
         private Vector3 camPos;
         public Vector3 camRotation = new Vector3(0, 0, 0);
+        private GameObject _player;
+        private GameObject _cursor;
 
         // Cutscene variables
-        private CursorBehaviour _cursor;
-        private PlayerController _controller;
+
         public int cutsceneNum = 0;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
