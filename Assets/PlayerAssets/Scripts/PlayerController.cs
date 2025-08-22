@@ -122,7 +122,7 @@ namespace StarterAssets
             }
 
             int pisCount = FindObjectsOfType<PlayerInputSystem>().Length;
-            Debug.Log($"[PlayerController] Start: _inputAction={(_inputAction?.name ?? "null")}, PlayerInputSystem count={pisCount}");
+            // Debug.Log($"[PlayerController] Start: _inputAction={(_inputAction?.name ?? "null")}, PlayerInputSystem count={pisCount}");
 
 
 #if ENABLE_INPUT_SYSTEM
@@ -179,10 +179,10 @@ namespace StarterAssets
             float targetSpeed = sprintInput ? SprintSpeed : MoveSpeed;
 
             if (moveInput == Vector2.zero) targetSpeed = 0.0f;
-            Debug.Log("Target Speed:" + targetSpeed);
+            // Debug.Log("Target Speed:" + targetSpeed);
             if (canInput != _lastCanInput)
             {
-                Debug.Log($"[PlayerController] canInput changed: {canInput} (source={_inputAction?.name ?? "null"})");
+                // Debug.Log($"[PlayerController] canInput changed: {canInput} (source={_inputAction?.name ?? "null"})");
                 _lastCanInput = canInput;
             }
 
