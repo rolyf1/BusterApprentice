@@ -5,8 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - CinemachineTarget
-  - PlayerPivot
   - Cursor
+  - NPC
   layers:
   - Default
   - TransparentFX
@@ -15,7 +15,7 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
+  - npcLayer
   - 
   - 
   - 

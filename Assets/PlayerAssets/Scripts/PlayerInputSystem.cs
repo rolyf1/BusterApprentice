@@ -39,7 +39,7 @@ namespace PlayerAssets
             }
             else if (Instance != this)
             {
-                Debug.LogWarning($"Multiple PlayerInputSystem instances found! Existing={Instance.name}, This={name}");
+                // Debug.LogWarning($"Multiple PlayerInputSystem instances found! Existing={Instance.name}, This={name}");
             }
         }
 
@@ -132,7 +132,7 @@ namespace PlayerAssets
         public void ToggleInput(bool inputEnabled)
         {
             inputToggle = inputEnabled;
-            Debug.Log($"[PlayerInputSystem] {name}.ToggleInput({inputEnabled}) -> inputToggle={inputToggle}");
+            // Debug.Log($"[PlayerInputSystem] {name}.ToggleInput({inputEnabled}) -> inputToggle={inputToggle}");
 
             if (!inputEnabled)
             {

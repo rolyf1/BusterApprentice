@@ -1,11 +1,9 @@
-using StarterAssets;
 using TiltFiveCursor;
 using Unity.VisualScripting;
 using UnityEngine;
 
 
-namespace TiltFive
-{
+
     public class TrackPlayer : MonoBehaviour
     {
 
@@ -17,7 +15,7 @@ namespace TiltFive
 
         // Cutscene variables
 
-        public int cutsceneNum = 0;
+        public int cutsceneNum = 1;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         private void Start()
@@ -28,9 +26,12 @@ namespace TiltFive
         // Update is called once per frame
         private void LateUpdate()
         {
-            camPos = new Vector3(PlayerPos.position.x + camXOffset, PlayerPos.position.y + camYOffset, PlayerPos.position.z + camZOffset);
-            transform.position = Vector3.Lerp(transform.position, camPos, 0.1f);
+            if (cutsceneNum == 0)
+            {
+                camPos = new Vector3(PlayerPos.position.x + camXOffset, PlayerPos.position.y + camYOffset, PlayerPos.position.z + camZOffset);
+                transform.position = Vector3.Lerp(transform.position, camPos, 0.1f);
+            }
         }
     }
-}
+
 
